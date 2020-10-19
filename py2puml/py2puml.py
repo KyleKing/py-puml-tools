@@ -48,8 +48,9 @@ CONFIG_FILENAMES = (
 LOGGING_CFG = os.path.join(HOME_DIR, 'logging.yaml')
 
 with open(LOGGING_CFG) as f:
-    logging.config.dictConfig(yaml.load(f))
-logger = logging.getLogger() # (__name__)
+    logging.config.dictConfig(yaml.safe_load(f))
+logger = logging.getLogger()  # (__name__)
+
 
 def cli_parser():
     "Builds a command line parser suitable for this tool."
@@ -76,12 +77,13 @@ def cli_parser():
     parser.add_argument('-o', '--output', type=argparse.FileType('w'),
                         default=sys.stdout,
                         help='The name of the ouput PlantUML file.')
-    parser.add_argument('-r', '--root', #default='',
+    parser.add_argument('-r', '--root',  # default='',
                         help='Project root directory.'
                         ' Create namespaces from there')
     parser.add_argument('py_file', nargs='+',
                         help='the Python source files to parse.')
     return parser
+
 
 def run(cl_args):
     """Main application runner.
@@ -98,7 +100,7 @@ def run(cl_args):
     else:
         cfg.read(CONFIG_FILENAMES)
     logger.info("Using config: %r",
-                {s: {o:v for o, v in cfg.items(s)} for s, o in cfg.items()})
+                {s: {o: v for o, v in cfg.items(s)} for s, o in cfg.items()})
 
     # setup .puml generator
     if cl_args.root:
@@ -115,8 +117,9 @@ def run(cl_args):
 
     gen.footer()
     # TODO detect and warn about empty results
-    if cl_args.output != sys.stdout: # pragma: no cover
+    if cl_args.output != sys.stdout:  # pragma: no cover
         cl_args.output.close()
 
-if __name__ == '__main__': # pragma: no cover
+
+if __name__ == '__main__':  # pragma: no cover
     run(cli_parser().parse_args())

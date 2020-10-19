@@ -6,8 +6,7 @@ import logging
 import sys
 from code_info import CodeInfo, ClassInfo
 
-logger = logging.getLogger() # (__name__)
-
+logger = logging.getLogger()  # (__name__)
 
 
 class TreeVisitor(ast.NodeVisitor):
@@ -16,11 +15,12 @@ class TreeVisitor(ast.NodeVisitor):
     node classes (see Meet the Nodes).
 
     >>> visitor = TreeVisitor("examples/person.py")
-    >>> visitor.parse(
+    >>> visitor.parse()
     >>> visitor.visit_tree()
 
     """
     # List to put the class data.
+
     def __init__(self, srcfile, context=None):
         self.srcfile = srcfile
         self.context = context
@@ -66,7 +66,6 @@ class TreeVisitor(ast.NodeVisitor):
 
         if self.moduleinfo:
             self.moduleinfo.done(self.context)
-
 
     def visit_ClassDef(self, node):
         """

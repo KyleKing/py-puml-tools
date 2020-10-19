@@ -4,6 +4,7 @@
 from py2puml import run, cli_parser
 from version import __version__
 
+
 def test_cli_usage(capsys):
     cli_parser().print_help()
     with open('examples/usage.txt') as f:
@@ -12,13 +13,14 @@ def test_cli_usage(capsys):
     # Replace version number
     s = "py2puml v1.0.0\n"
     p = expected.find(s)
-    q = p+len(s)
+    q = p + len(s)
     expected = (expected[:p] + "py2puml v" + __version__ + "\n" + expected[q:])
 
     # compare with captured output
     out, err = capsys.readouterr()
     assert err == ''
     assert expected == out
+
 
 def test_run_multiple_sources(capsys):
     args = cli_parser().parse_args(
@@ -37,6 +39,7 @@ def test_run_multiple_sources(capsys):
         expected = f.read()
     assert expected == out
 
+
 def test_run_dbpuml2sql(capsys):
     args = cli_parser().parse_args(['-c', 'examples/dbpuml2sql.ini',
                                     #'-r', '../dbpuml2sql',
@@ -49,7 +52,7 @@ def test_run_dbpuml2sql(capsys):
     out, err = capsys.readouterr()
 
     assert err == ''
-    assert out.count('namespace ') == 0 # 6
+    assert out.count('namespace ') == 0  # 6
     assert out.count('{static}') == 1
     assert out.count('class ') == 3
     assert out.count('PUMLReader o-- Table') == 1
@@ -58,6 +61,7 @@ def test_run_dbpuml2sql(capsys):
         expected = f.read()
 
     assert expected == out
+
 
 def test_run_dbsql2puml(capsys):
     args = cli_parser().parse_args(['-c', 'examples/dbsql2puml.ini',
@@ -79,6 +83,7 @@ def test_run_dbsql2puml(capsys):
         expected = f.read()
     assert expected == out
 
+
 def test_run_syntax_error(capsys):
     args = cli_parser().parse_args('examples/bugged.py examples/person.py'.split())
     run(args)
@@ -92,6 +97,7 @@ def test_run_syntax_error(capsys):
 Syntax error in examples/bugged.py:6:57: while i<10 #Begin loop, repeat until there's ten numbers
 Skipping file
 """
+
 
 def test_run_filenotfound_error(capsys):
     args = cli_parser().parse_args('missing.py examples/person.py'.split())

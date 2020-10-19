@@ -7,17 +7,20 @@ import pytest
 
 from puml_generator import PUML_Generator, PUML_Generator_NS
 
+
 @pytest.fixture
 def cfg():
     cfg = configparser.ConfigParser()
     cfg.read('py2puml.ini')
     return cfg
 
+
 @pytest.fixture
 def cfg_omit_self():
     cfg = configparser.ConfigParser()
     cfg.read_dict({'methods': {'omit-self: True'}})
     return cfg
+
 
 @pytest.fixture
 def cfg_omit_defaults():
@@ -28,6 +31,7 @@ def cfg_omit_defaults():
     })
     return cfg
 
+
 @pytest.fixture
 def cfg_write_globals():
     cfg = configparser.ConfigParser()
@@ -36,6 +40,7 @@ def cfg_write_globals():
     write-globals = True
     """)
     return cfg
+
 
 def gen_with_config(text_or_dict, cls=PUML_Generator):
     cfg = configparser.ConfigParser()
@@ -50,20 +55,27 @@ def gen_with_config(text_or_dict, cls=PUML_Generator):
     gen = cls(dest, config=cfg)
     return gen
 
+
 def assert_match_file(gen, filename):
     # print a clean version of actual output, on failure
-    print(gen.dest.getvalue())
+    result = gen.dest.getvalue()
+    print(result)
     with open(filename) as f:
         expected = f.read()
-    assert gen.dest.getvalue() == expected
+    # from pathlib import Path
+    # Path(filename).write_text(result)
+    assert result == expected
 
 # ======================================================================
+
+
 def test_default_config(cfg):
     assert not cfg.getboolean('methods', 'omit-arg-list', fallback=False)
     assert not cfg.getboolean('methods', 'omit-self', fallback=False)
     assert not cfg.getboolean('methods', 'omit-defaults', fallback=False)
     with pytest.raises(configparser.NoOptionError, message="Expecting NoOptionError"):
         assert not cfg.getboolean('methods', 'unknown')
+
 
 class Test_PUML_Generator(object):
     pyfilename = 'some/sub/path/module.py'
@@ -94,6 +106,7 @@ skinparam classAttributeIconSize 0
 scale 2
 
 """
+
     def test_footer(self, gen):
         gen.header()
         gen.start_file(self.pyfilename)
@@ -174,7 +187,7 @@ scale 2
         write-globals = True
         """)
         cfg = gen.config
-        print({s:{o:v for o, v in cfg.items(s)} for s, o in cfg.items()})
+        print({s: {o: v for o, v in cfg.items(s)} for s, o in cfg.items()})
         assert gen.opt_omit_defaults('methods')
         assert gen.opt_omit_defaults('module')
         gen.do_file('examples/example.py')
@@ -196,7 +209,7 @@ scale 2
         assert deco == '@contextlib.contextmanager'
 
     def test_abstract(self):
-        pass # included in example.py
+        pass  # included in example.py
 
     def test_badself(self, caplog):
         gen = gen_with_config("""\
@@ -214,6 +227,7 @@ scale 2
             assert caplog.record_tuples == [
                 ('root', logging.WARNING,
                  "Unexpected name 'badself' for method 'self' parameter in meth()")]
+
 
 class Test_PUML_Generator_NS(object):
     pyfilename = 'some/sub/path/module.py'
@@ -270,6 +284,7 @@ namespace some {
 }
 @enduml
 """
+
     def test_folder_tree(self, gen):
         sources = ['setup.py',
                    'sample/module1.py',
@@ -285,7 +300,7 @@ namespace some {
             assert gen.namespaces == ns
             gen.output("# contents of", src)
             gen.end_file()
-        gen.footer() # close all namespaces
+        gen.footer()  # close all namespaces
         print(gen.dest.getvalue())
         assert gen.dest.getvalue() == """\
 namespace setup {
@@ -325,6 +340,7 @@ namespace dirA3 {
 }
 @enduml
 """
+
     def test_write_globals(self, cfg_write_globals):
         dest = io.StringIO()
         gen = PUML_Generator_NS(dest, root='.', config=cfg_write_globals)
@@ -335,4 +351,4 @@ namespace dirA3 {
         assert_match_file(gen, 'examples/example_globals_NS.puml')
 
 
-#TODO test bad config file
+# TODO test bad config file

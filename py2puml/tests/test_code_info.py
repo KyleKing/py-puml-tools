@@ -5,10 +5,12 @@ import pytest
 
 from code_info import ClassInfo, CodeInfo
 
+
 @pytest.fixture
 def ast_class0():
     """AST tree of an empty class"""
     return ast.parse("class MyClass: pass").body[0]
+
 
 @pytest.fixture
 def ast_class1():

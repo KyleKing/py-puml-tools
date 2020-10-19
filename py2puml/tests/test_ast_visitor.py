@@ -10,6 +10,7 @@ from puml_generator import PUML_Generator
 cfg = configparser.ConfigParser()
 cfg.read('py2puml.ini')
 
+
 class Test_TreeVisitor(object):
     def test_init(self):
         visitor = TreeVisitor(ast.Module())

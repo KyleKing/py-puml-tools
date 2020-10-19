@@ -6,12 +6,14 @@ Infos are fed by some ast.NodeVisitor and used by some PUML_Generator.
 import logging
 import ast
 
-logger = logging.getLogger() # (__name__) # pylint: disable=invalid-name
+logger = logging.getLogger()  # (__name__) # pylint: disable=invalid-name
+
 
 class CodeInfo:
     """
     Container for collecting information about various code elements .
     """
+
     def __init__(self):
         self.variables = []
         self.functions = []
@@ -48,6 +50,7 @@ class ClassInfo(CodeInfo):
 
     Elements are grouped by type in arrays while parsing, printing done last.
     """
+
     def __init__(self, node):
         super().__init__()
         logger.info("New ClassInfo: %s", ast.dump(node))

@@ -19,8 +19,8 @@ namespace examples {
     class MyVisitor {
     }
 
+    six.with_metaclass(ABCMeta) <|-- C
     class C {
-      {static} -__metaclass__
       +my_abstract_method(self, arg1){abstract}
     }
 

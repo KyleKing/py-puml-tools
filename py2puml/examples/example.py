@@ -1,5 +1,7 @@
+from __future__ import absolute_import
 import ast
 import logging
+import six
 
 LOGGER = logging.getLogger()
 
@@ -30,8 +32,7 @@ class MyVisitor(ast.NodeVisitor):
     pass
 
 from abc import ABCMeta, abstractmethod
-class C:
-    __metaclass__ = ABCMeta
+class C(six.with_metaclass(ABCMeta)):
     @abstractmethod
     def my_abstract_method(self, arg1):
         pass

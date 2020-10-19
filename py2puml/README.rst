@@ -78,4 +78,3 @@ TODO
 ----
 
 .. |cal\_clock3| image:: examples/cal_clock3/calendar_clock.png
-

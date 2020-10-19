@@ -15,11 +15,13 @@ from ast_visitor import TreeVisitor
 # puml printation unit
 TAB = '  '
 # module logger
-logger = logging.getLogger() # (__name__)
+logger = logging.getLogger()  # (__name__)
+
 
 class PUML_Generator:
     """Formats data for PlantUML.
     """
+
     def __init__(self, dest, config=None):
         """Constructor.
 
@@ -202,9 +204,11 @@ class PUML_Generator:
 
         return astor.to_source(args).rstrip()
 
+
 class PUML_Generator_NS(PUML_Generator):
     """Formats data for PlantUML.
     """
+
     def __init__(self, dest, root, config=None):
         super().__init__(dest, config)
         self.root = root
@@ -240,7 +244,7 @@ class PUML_Generator_NS(PUML_Generator):
 
     def pop_ns(self, count=1):
         """Removes some inner namespaces"""
-        for n in range(count): # pylint: disable=unused-variable
+        for n in range(count):  # pylint: disable=unused-variable
             self.namespaces.pop()
             self.output('}')
 

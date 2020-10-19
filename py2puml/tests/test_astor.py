@@ -6,10 +6,12 @@ import pytest
 
 assert astor.__version__ >= "0.6"
 
+
 @pytest.fixture
 def ast_class0():
     """AST tree of an empty class"""
     return astor.code_to_ast("class MyClass: pass").body[0]
+
 
 @pytest.fixture
 def ast_person():
@@ -18,12 +20,14 @@ def ast_person():
     tree = astor.code_to_ast.parse_file('examples/person.py')
     return tree
 
+
 @pytest.fixture
 def ast_calendar():
     "Multiple inheritance AST tree"
     # This is a very thin wrapper around ast.parse
     tree = astor.code_to_ast.parse_file('examples/calendar_clock.py')
     return tree
+
 
 def test_dump(ast_person):
     expected = "Module(\n" \
@@ -33,23 +37,28 @@ def test_dump(ast_person):
     ans = astor.dump_tree(ast_person)
     assert ans[:len(expected)] == expected
 
+
 def test_to_source(ast_person):
     ans = astor.to_source(ast_person)
     # print(ansys
     assert len(ans) == 532
+
 
 def test_simple_inheritance():
     # cdef = astor.code_to_ast("class MyClass (MyParent): pass").body[0]
     cdef = ast.parse("class MyClass (MyParent): pass").body[0]
 
     # ast and astor give different dump results:
-    assert ast.dump(cdef) == "ClassDef(name='MyClass', bases=[Name(id='MyParent', ctx=Load())], keywords=[], body=[Pass()], decorator_list=[])"
+    assert ast.dump(
+        cdef) == "ClassDef(name='MyClass', bases=[Name(id='MyParent', ctx=Load())], keywords=[], body=[Pass()], decorator_list=[])"
 
-    assert astor.dump_tree(cdef) == "ClassDef(name='MyClass', bases=[Name(id='MyParent')], keywords=[], body=[Pass], decorator_list=[])"
+    assert astor.dump_tree(
+        cdef) == "ClassDef(name='MyClass', bases=[Name(id='MyParent')], keywords=[], body=[Pass], decorator_list=[])"
 
     # list bases:
     exprs = [astor.to_source(base).rstrip() for base in cdef.bases]
     assert exprs == ['MyParent']
+
 
 def test_multiple_inheritance():
     # cdef = astor.code_to_ast("class MyClass (MyParent): pass").body[0]
@@ -58,17 +67,20 @@ def test_multiple_inheritance():
     exprs = [astor.to_source(base).rstrip() for base in cdef.bases]
     assert exprs == ['MyParent', 'OtherParent']
 
+
 def test_composite_inheritance():
     cdef = ast.parse("class MyClass (mypackage.MyParent): pass").body[0]
 
     exprs = [astor.to_source(base).rstrip() for base in cdef.bases]
     assert exprs == ['mypackage.MyParent']
 
+
 def test_simple_arglist():
     fdef = ast.parse("def my_function(arg1,arg2,arg3=None): pass").body[0]
 
     # ast and astor give different dump results:
-    assert ast.dump(fdef) == "FunctionDef(name='my_function', args=arguments(args=[arg(arg='arg1', annotation=None), arg(arg='arg2', annotation=None), arg(arg='arg3', annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[NameConstant(value=None)]), body=[Pass()], decorator_list=[], returns=None)"
+    assert ast.dump(
+        fdef) == "FunctionDef(name='my_function', args=arguments(args=[arg(arg='arg1', annotation=None), arg(arg='arg2', annotation=None), arg(arg='arg3', annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[NameConstant(value=None)]), body=[Pass()], decorator_list=[], returns=None)"
 
     assert astor.dump_tree(fdef) == "FunctionDef(name='my_function',\n"\
         "    args=arguments(\n"\
@@ -85,6 +97,7 @@ def test_simple_arglist():
     # list bases:
     expr = astor.to_source(fdef.args).rstrip()
     assert expr == 'arg1, arg2, arg3=None'
+
 
 def test_complex_arg_list():
     """
