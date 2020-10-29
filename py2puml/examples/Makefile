@@ -1,5 +1,5 @@
-PLANTUML=java -jar /usr/local/share/plantuml/plantuml.jar
-PY2PUML=../py2puml.py
+PLANTUML=plantuml  # java -jar /usr/local/share/plantuml/plantuml.jar
+PY2PUML=poetry run ../py2puml.py
 PY2UML_SOURCES = ../py2puml.py ../puml_generator.py ../code_info.py ../ast_visitor.py
 DIAGRAMS=person.png py2puml.png py2puml_NS.png py2puml-custom.png cal_clock3
 MORE_DIAGRAMS=dbdia2sql.py.png \

@@ -1,5 +1,5 @@
-PLANTUML=java -jar /usr/local/share/plantuml/plantuml.jar
-PY2PUML=../../py2puml.py
+PLANTUML=plantuml  # java -jar /usr/local/share/plantuml/plantuml.jar
+PY2PUML=poetry run ../../py2puml.py
 
 all: calendar_clock.png
 

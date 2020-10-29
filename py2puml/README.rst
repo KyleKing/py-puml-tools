@@ -20,7 +20,7 @@ Command line interface
 
 ::
 
-    usage: py2uml [-h] [--config CONFIG] [-o [OUTPUT]] [-r ROOT]
+    usage: py2puml [-h] [--config CONFIG] [-o [OUTPUT]] [-r ROOT]
                   py_file [py_file ...]
 
     py2puml from Martin B. K. Grønholdt, v0.2.4 by Michelle Baert.
@@ -53,10 +53,13 @@ program source code:
 ::
 
     $ cd examples
-    $ ../py2puml.py --config custom.ini ../py2puml.py py2puml-custom.puml
+    $ poetry run ../py2puml.py --config custom.ini --root .. -o py2puml-custom.puml ../py2puml.py ../puml_generator.py ../code_info.py ../ast_visitor.py
     $ java -jar /usr/local/share/plantuml/plantuml.jar py2puml-custom.puml
+    $
+    $ poetry run ../py2puml.py -r .. -o py2puml_NS.puml ../py2puml.py ../puml_generator.py ../code_info.py ../ast_visitor.py
+    $ java -jar /usr/local/share/plantuml/plantuml.jar py2puml_NS.puml
 
-Hand-made ``Makefile``\ s are there to help automatisation.
+Hand-made ``Makefile``\ s are there to help automatization (i.e. `make py2puml-custom.puml`)
 
 **Rendered output**
 

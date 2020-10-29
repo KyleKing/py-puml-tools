@@ -1,5 +1,7 @@
 # Python tools for PlantUML
 
+**UPDATE: `kyleking/` fork has minor fixes for `py2uml` to work on Mac with Py3.7**
+
 These are some tools that I have made for use in the weekly Python programming
 handins, I am doing 2016-2018 at Lillebaelt Academy.
 
@@ -13,4 +15,3 @@ I am using them in school.*
  * [**py2uml**](py2puml/): Generate a PlantUML class diagram from Python source code.
    The original was rewritten, extended, and documentet by [@RockyRoad29](https://github.com/RockyRoad29).
    Repository: [RockyRoad29/py-puml-tools](https://github.com/RockyRoad29/py-puml-tools)
-

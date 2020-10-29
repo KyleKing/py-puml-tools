@@ -73,7 +73,8 @@ def test_default_config(cfg):
     assert not cfg.getboolean('methods', 'omit-arg-list', fallback=False)
     assert not cfg.getboolean('methods', 'omit-self', fallback=False)
     assert not cfg.getboolean('methods', 'omit-defaults', fallback=False)
-    with pytest.raises(configparser.NoOptionError, message="Expecting NoOptionError"):
+    with pytest.raises(configparser.NoOptionError,
+                       match="No option 'unknown' in section: 'methods'"):
         assert not cfg.getboolean('methods', 'unknown')
 
 

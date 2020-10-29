@@ -1,3 +1,5 @@
+# cal_clock3
+
 Example borrowed from http://www.python-course.eu/python3_multiple_inheritance.php
 
 Generate diagram with:
