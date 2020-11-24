@@ -132,11 +132,17 @@ class PUML_Generator:
         """helper function for functions decorators"""
         if isinstance(dec, ast.Attribute):
             return '@' + astor.to_source(dec).rstrip()
-        if dec.id == 'staticmethod':
-            return 'static'
-        if dec.id == 'abstractmethod':
-            return 'abstract'
-        return '@' + dec.id
+        try:
+            if dec.id == 'staticmethod':
+                return 'static'
+            if dec.id == 'abstractmethod':
+                return 'abstract'
+            return '@' + dec.id
+        # >> FYI: throw from @ex() decorator from cement
+        except AttributeError:
+            print([val for val in dir(dec) if not val.startswith('_')])
+            # breakpoint()
+            return ''
 
     @staticmethod
     def is_static_method(meth):
